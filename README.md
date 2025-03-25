@@ -228,16 +228,9 @@ Overwiew
 | **Enumeration**             | Identifies specific details of an application, such as databases, tables, and columns.                     |
 | **--batch**                 | Executes tests or attacks on multiple inputs/parameters automatically in a batch process.                   |
 | **Risk Assessment**         | Evaluates the potential impact or severity of a vulnerability (e.g., High, Medium, Low).                     |
-| **--level**                 | Defines the intensity of a scan or test (e.g., Low, Medium, High).                                          |
+| **--level**                 | Defines the intensity of a scan or test (e.g., Low, Medium, High). - ![LEVEL](https://github.com/Dharmendrastm/SQL_Injection/blob/main/Level.png)                                          |
 | **--threads**               | Specifies the number of simultaneous requests sent during testing.                                          |
-| **Verbosity Levels**        | Controls the level of detail in output logs:                                                                |
-|                             | • **0** – Only shows Python tracebacks, errors, and critical messages.                                      |
-|                             | • **1** – Includes informational and warning messages.                                                      |
-|                             | • **2** – Adds debug messages.                                                                              |
-|                             | • **3** – Displays injected payloads.                                                                      |
-|                             | • **4** – Shows HTTP requests.                                                                              |
-|                             | • **5** – Includes HTTP response headers.                                                                  |
-|                             | • **6** – Displays full HTTP response page content.                                                        |
+| **Verbosity Levels**        | Controls the level of detail in output logs:- ![VERBOSITY](https://github.com/Dharmendrastm/SQL_Injection/blob/main/Verbosity.png)                                                                |                                                    |
 | **--proxy**                 | Intercepts and modifies HTTP/S traffic between the browser and the target application.                      |
 | **--SQL Injection via Burp** | Uses Burp Suite to identify and exploit SQL injection vulnerabilities.                                      |
 | **-u**                      | Specifies the target URL for testing.                                                                      |
