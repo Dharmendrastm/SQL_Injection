@@ -229,7 +229,15 @@ Overwiew
 | **Risk**                    | Assessing the potential impact or severity of a vulnerability (e.g., High, Medium, Low).                 |
 | **--Level**                   | The intensity of a scan or test, e.g., Low, Medium, High.                                                |
 | **--Threads**                 | The number of simultaneous requests that are sent during testing.                                        |
-| **Verbosity**               | The amount of detail provided in the output (e.g., minimal or detailed logging).                          |
+| **Verbosity**               | The amount of detail provided in the output (e.g., minimal or detailed logging).
+Verbosity 
+• 0: Show only Python tracebacks, error and critical messages. 
+• 1: Show also information and warning messages. 
+• 2: Show also debug messages. 
+• 3: Show also payloads injected. 
+• 4: Show also HTTP requests. 
+5: Show also HTTP responses' headers. 
+6: Show also HTTP responses' page content.|
 | **--Proxy**                   | Intercepting and modifying HTTP/S traffic between your browser and the target application.               |
 | **--SQL Injection via Burp**  | Using Burp Suite to identify and exploit SQL injection vulnerabilities.                                  |
 | **-u**                       | Target URL for testing.                                                                                 |
