@@ -216,279 +216,24 @@ Toh attacker authentication bypass kar sakta hai.
 - HTTP headers & cookies  
 - Backup files & stored procedures  
 
-
-
-Haan, **SQL Injection** tabhi hoti hai jab **user input directly SQL query mein use hota hai bina sanitization aur validation ke**. Yeh ek **critical vulnerability** hai jo attacker ko database manipulate karne, sensitive data churaane, ya even pura system compromise karne ka mauka deti hai.  
-
-## 🔴 **Sabse Dangerous Cases of SQL Injection:**  
-Yeh kuch sabse **dangerous aur commonly exploited areas** hain jahan SQLi vulnerability mil sakti hai:  
-
-### **1️⃣ Login Pages (Authentication Bypass)**  
-- Aksar **username-password** authentication mein SQLi hoti hai.  
-- Example vulnerable query:  
-  ```sql
-  SELECT * FROM users WHERE username = '$user' AND password = '$pass';
-  ```
-- **Attack Payload:**  
-  ```sql
-  ' OR '1'='1' -- 
-  ```
-  🔥 **Effect:** Attacker **bina password ke login** kar sakta hai.  
-
----
-
-### **2️⃣ URL Parameters (GET Requests)**  
-- Jab query string parameters directly SQL queries mein use hote hain.  
-- Example:  
-  ```
-  https://example.com/product.php?id=5
-  ```
-  ```sql
-  SELECT * FROM products WHERE id = $id;
-  ```
-- **Attack Payload:**  
-  ```
-  ?id=5 OR 1=1 --
-  ```
-  🔥 **Effect:** Pura database expose ho sakta hai.  
-
----
-
-### **3️⃣ Search Boxes & Filters**  
-- Jab **user input directly SQL queries mein inject hota hai**.  
-- Example:  
-  ```sql
-  SELECT * FROM products WHERE name LIKE '%$search%';
-  ```
-- **Attack Payload:**  
-  ```
-  %' OR '1'='1' -- 
-  ```
-  🔥 **Effect:** Attacker har product ka data dekh sakta hai, even restricted ones.  
-
----
-
-### **4️⃣ Form Inputs (Signup, Contact, Feedback)**  
-- Jab **form data bina validation ke database mein store hota hai**.  
-- Example:  
-  ```sql
-  INSERT INTO feedback (name, message) VALUES ('$name', '$message');
-  ```
-- **Attack Payload:**  
-  ```
-  '); DROP TABLE feedback; --
-  ```
-  🔥 **Effect:** **Entire table delete ho sakti hai!**  
-
----
-
-### **5️⃣ Cookies-based SQL Injection**  
-- Jab **cookies bina validation ke SQL query mein use hoti hain**.  
-- Example:  
-  ```sql
-  SELECT * FROM users WHERE session_id = '" . $_COOKIE['session_id'] . "'";
-  ```
-- **Attack Payload:**  
-  ```
-  ' OR '1'='1
-  ```
-  🔥 **Effect:** Attacker kisi bhi user ka session hijack kar sakta hai.  
-
----
-
-### **6️⃣ HTTP Headers (User-Agent, Referer, X-Forwarded-For, etc.)**  
-- **Log files ya analytics** ke liye headers bina sanitization ke store kiye gaye toh SQLi ho sakta hai.  
-- Example:  
-  ```sql
-  INSERT INTO logs (ip, user_agent) VALUES ('" . $_SERVER['REMOTE_ADDR'] . "', '" . $_SERVER['HTTP_USER_AGENT'] . "');
-  ```
-- **Attack Payload:**  
-  ```
-  Mozilla/5.0' OR '1'='1' --
-  ```
-  🔥 **Effect:** Log table manipulate ho sakti hai, ya attacker **database exfiltration** kar sakta hai.  
-
----
-
-### **7️⃣ Blind SQL Injection (Boolean & Time-based Attacks)**  
-- Jab **SQL errors nahi dikhti** par database manipulate ho sakta hai.  
-- **Boolean-Based Payload:**  
-  ```sql
-  ?id=5 AND 1=1 -- (Valid Response)
-  ?id=5 AND 1=2 -- (Different Response)
-  ```
-- **Time-Based Payload:**  
-  ```sql
-  ?id=5; SLEEP(10) --
-  ```
-  🔥 **Effect:** Attacker SQL query execution ka **response time analyze** karke database structure samajh sakta hai.  
-
----
-
-### **8️⃣ Stored SQL Injection (Persistent Attacks)**  
-- Jab **malicious SQL query kisi database field mein store ho jaaye** aur later execute ho.  
-- Example:  
-  ```sql
-  INSERT INTO comments (username, comment) VALUES ('$user', '$comment');
-  ```
-- **Attack Payload:**  
-  ```
-  '); DROP TABLE users; --
-  ```
-  🔥 **Effect:** Jab bhi admin ya koi user **comments view karega, toh SQL query execute ho jayegi**, aur **users table delete ho sakta hai!**  
-
----
-
-### **9️⃣ Second Order SQL Injection**  
-- Jab **malicious input pehle store hota hai aur baad mein execute hota hai**.  
-- Example:  
-  1. Attacker **signup form** mein malicious input daalta hai:  
-     ```
-     admin' --
-     ```
-  2. Jab admin panel user ko retrieve karega:  
-     ```sql
-     SELECT * FROM users WHERE username = '$stored_username';
-     ```
-  3. SQL query **modify ho jayegi** aur SQLi execute ho sakta hai.  
-  🔥 **Effect:** Admin ya kisi bhi user ka account hijack ho sakta hai.  
-
----
-
-### **🔒 How to Prevent SQL Injection?**  
-✅ **Prepared Statements & Parameterized Queries** (Use `mysqli_prepare()` ya `PDO`)  
-✅ **Input Validation & Escaping** (`htmlspecialchars()`, `mysqli_real_escape_string()`)  
-✅ **Use Web Application Firewalls (WAFs)**  
-✅ **Least Privilege Principle (Restrict Database Permissions)**  
-✅ **Error Handling & Logging (Don't Display SQL Errors to Users!)**  
-
 ---
 
 # SQLMAP TOOL
 Overwiew
-
-It looks like you're outlining a structure related to web application security testing, potentially focusing on Burp Suite and SQL injection, with different testing techniques and parameters. I'll go through each of the terms you've listed and explain them briefly.
-
-### Overview
-This could be the heading or topic for your web application testing setup, specifically aimed at identifying security flaws like SQL injection, as well as managing configuration settings.
-
 ---
-
-### Techniques
-These refer to the strategies used for security testing. In the case of SQL injection, Burp Suite offers a variety of ways to test applications for vulnerabilities.
-
----
-
-### Crawl
-Crawling is the process of scanning a web application to map out all its pages and endpoints. It helps the tester identify where to target in terms of testing for vulnerabilities, such as SQL injection.
-
----
-
-### Enumeration
-Enumeration refers to the process of identifying the specific details of an application, such as database names, tables, columns, and more. This is often the next step after identifying a potential injection point.
-
----
-
-### Batch
-Batch processing in the context of Burp Suite could mean running multiple tests or attacks on various parameters or inputs automatically without needing manual intervention for each one.
-
----
-
-### Risk
-Risk is a measure of the potential impact of a vulnerability. The risk level for an SQL injection attack, for example, can be high if an attacker can execute arbitrary queries that expose sensitive data.
-
----
-
-### Level
-Level typically refers to the intensity of the scan or testing being performed. For Burp Suite, this could refer to scan or attack level (such as "Low", "Medium", or "High") when looking for vulnerabilities like SQL injections.
-
----
-
-### Threads
-Threads refer to the number of simultaneous connections or requests that Burp Suite will make during testing. Increasing the number of threads can speed up the process, but it can also impact the server and cause false positives or overloads.
-
----
-
-### Verbosity
-Verbosity controls how much detail is provided in the output of the scan. For example, you can adjust Burp Suite to show only essential information or a more detailed breakdown of each test being performed.
-
----
-
-### Proxy
-Burp Suite's proxy allows you to intercept, modify, and inspect HTTP/S requests and responses between your browser and the target application. It's essential for testing and manipulating web traffic, especially for vulnerability testing like SQL injection.
-
----
-
-### SQL Injection Via Burp Suite
-SQL injection testing is one of the most common security tests. Burp Suite can be used to manipulate user inputs to check if SQL injection vulnerabilities are present. It can automatically identify weak spots by sending malicious payloads to the server to see if it executes unintended SQL queries.
-
----
-
-### Parameters and Options
-
-- **u (URL)**: This could be the URL or target where the Burp Suite is targeting.
-  
-- **forms**: Specifies testing of web forms, like login or search forms, which are common places for SQL injection vulnerabilities.
-
-- **--data**: This parameter specifies the data (usually POST data) that will be sent during the request. It's useful for injecting payloads into form submissions.
-
-- **--headers**: Custom headers can be set here. Headers can include authentication tokens or other key information needed for testing.
-
-- **--user-agent**: The User-Agent header identifies the client software making the request. In penetration testing, it might be changed to mimic different browsers or tools.
-
-- **--cookie**: This specifies cookies to be sent with requests. It’s useful when testing sessions and checking for vulnerabilities like session fixation or hijacking.
-
-- **--flush-session**: This forces Burp Suite to clear the current session state, which is useful if you're testing without persistent cookies or need a fresh session for each request.
-
-- **--output-dir**: Specifies the directory to store the results of your scan or attacks.
-
-- **--tamper**: Tampering is the modification of payloads to evade detection by web application firewalls (WAFs) or intrusion detection systems (IDS). Burp Suite allows the use of tamper scripts for this purpose.
-
----
-If you're looking to represent the list of terms you mentioned in the form of a table for GitHub (e.g., in a Markdown file like `README.md`), here’s how you can structure it using Markdown tables.
-
-### Example of a Markdown Table for GitHub
-
-```markdown
 | **Technique**               | **Description**                                                                                          |
 |-----------------------------|----------------------------------------------------------------------------------------------------------|
-| **Crawl**                   | Scan the web application to discover all its endpoints and content.                                      |
+| **--Crawl**                   | Scan the web application to discover all its endpoints and content. like as --crawl 5                                    |
 | **Enumeration**             | Identifying specific details of an application (e.g., databases, tables, columns).                      |
-| **Batch**                   | Running tests or attacks on multiple inputs/parameters automatically in a batch process.                |
+| **--Batch**                   | Running tests or attacks on multiple inputs/parameters automatically in a batch process.                |
 | **Risk**                    | Assessing the potential impact or severity of a vulnerability (e.g., High, Medium, Low).                 |
-| **Level**                   | The intensity of a scan or test, e.g., Low, Medium, High.                                                |
-| **Threads**                 | The number of simultaneous requests that are sent during testing.                                        |
+| **--Level**                   | The intensity of a scan or test, e.g., Low, Medium, High.                                                |
+| **--Threads**                 | The number of simultaneous requests that are sent during testing.                                        |
 | **Verbosity**               | The amount of detail provided in the output (e.g., minimal or detailed logging).                          |
-| **Proxy**                   | Intercepting and modifying HTTP/S traffic between your browser and the target application.               |
-| **SQL Injection via Burp**  | Using Burp Suite to identify and exploit SQL injection vulnerabilities.                                  |
-| **u**                       | Target URL for testing.                                                                                 |
-| **forms**                   | Specify form-based attack vectors (e.g., login forms, search forms) for SQL injection testing.           |
-| **--data**                  | Specify the data that will be sent in the request body (typically used for POST requests).               |
-| **--headers**               | Custom HTTP headers to send with the request, such as authentication tokens or other key info.           |
-| **--user-agent**            | Custom User-Agent string to simulate different browsers or tools.                                        |
-| **--cookie**                | Set cookies to simulate authenticated sessions or other relevant session states.                        |
-| **--flush-session**         | Clear the current session in Burp Suite, often used for testing without persistent cookies.              |
-| **--output-dir**            | Directory to save the results of your scan or attacks.                                                   |
-| **--tamper**                | Use tampering scripts to modify payloads and bypass security measures like Web Application Firewalls (WAF).|
-```
-
----
-
-### How It Will Render:
-
-| **Technique**               | **Description**                                                                                          |
-|-----------------------------|----------------------------------------------------------------------------------------------------------|
-| **Crawl**                   | Scan the web application to discover all its endpoints and content.                                      |
-| **Enumeration**             | Identifying specific details of an application (e.g., databases, tables, columns).                      |
-| **Batch**                   | Running tests or attacks on multiple inputs/parameters automatically in a batch process.                |
-| **Risk**                    | Assessing the potential impact or severity of a vulnerability (e.g., High, Medium, Low).                 |
-| **Level**                   | The intensity of a scan or test, e.g., Low, Medium, High.                                                |
-| **Threads**                 | The number of simultaneous requests that are sent during testing.                                        |
-| **Verbosity**               | The amount of detail provided in the output (e.g., minimal or detailed logging).                          |
-| **Proxy**                   | Intercepting and modifying HTTP/S traffic between your browser and the target application.               |
-| **SQL Injection via Burp**  | Using Burp Suite to identify and exploit SQL injection vulnerabilities.                                  |
-| **u**                       | Target URL for testing.                                                                                 |
-| **forms**                   | Specify form-based attack vectors (e.g., login forms, search forms) for SQL injection testing.           |
+| **--Proxy**                   | Intercepting and modifying HTTP/S traffic between your browser and the target application.               |
+| **--SQL Injection via Burp**  | Using Burp Suite to identify and exploit SQL injection vulnerabilities.                                  |
+| **-u**                       | Target URL for testing.                                                                                 |
+| **--forms**                   | Specify form-based attack vectors (e.g., login forms, search forms) for SQL injection testing.           |
 | **--data**                  | Specify the data that will be sent in the request body (typically used for POST requests).               |
 | **--headers**               | Custom HTTP headers to send with the request, such as authentication tokens or other key info.           |
 | **--user-agent**            | Custom User-Agent string to simulate different browsers or tools.                                        |
@@ -498,10 +243,73 @@ If you're looking to represent the list of terms you mentioned in the form of a 
 | **--tamper**                | Use tampering scripts to modify payloads and bypass security measures like Web Application Firewalls (WAF).|
 
 ---
+**SQLmap** is a powerful open-source tool used for automating the process of detecting and exploiting SQL injection vulnerabilities in web applications. It provides a variety of techniques to exploit different types of SQL injection vulnerabilities. Below are the key techniques in SQLmap, each serving a specific purpose for testing and exploiting SQL injection vulnerabilities.
 
-This table format is highly readable and provides an organized way to explain different parameters, techniques, and settings related to Burp Suite or web application security testing. You can paste this into your GitHub repository's `README.md` file, and it will render neatly for others to understand easily.
+### Key Techniques of SQLmap
 
-Let me know if you'd like to further customize the table or add more rows!
+1. **Boolean-based Blind SQL Injection**
+   - **Technique**: SQLmap sends a series of queries that return either `True` or `False` based on whether the payload works. This technique doesn't return any data directly but relies on the behavior of the application (e.g., page content, HTTP status codes, response time) to infer the database's response.
+   - **Use Case**: When no data is displayed in response, but there are changes in behavior based on SQL injection.
+   - **Example**: `id=1 AND 1=1` vs. `id=1 AND 1=2`
+
+2. **Time-based Blind SQL Injection**
+   - **Technique**: In a time-based blind SQL injection, SQLmap injects payloads that cause a delay in the application's response if the SQL query is executed successfully. The tool then measures the response time to determine whether the query is vulnerable.
+   - **Use Case**: When the application does not give any visible feedback but delays occur when certain inputs are processed.
+   - **Example**: `id=1 AND SLEEP(5)` will delay the response by 5 seconds if successful.
+
+3. **Error-based SQL Injection**
+   - **Technique**: SQLmap uses error messages generated by the database to gain information about the structure of the database, tables, and columns. This method involves exploiting database errors to gather detailed information about the underlying database.
+   - **Use Case**: When the application reveals database error messages in the response that can be used to infer database structure.
+   - **Example**: `id=1'` could trigger an error like "You have an error in your SQL syntax."
+
+4. **Union-based SQL Injection**
+   - **Technique**: SQLmap uses `UNION` SQL queries to combine the results of multiple queries into a single result. This allows the tool to extract data from other database tables and columns.
+   - **Use Case**: When SQL injection allows the combination of results from two or more SELECT queries.
+   - **Example**: `id=1 UNION SELECT null, username, password FROM users`
+
+5. **Out-of-Band (OOB) SQL Injection**
+   - **Technique**: This technique relies on the database making HTTP or DNS requests to an external server controlled by the attacker. SQLmap listens for these requests to confirm the injection and sometimes to retrieve data.
+   - **Use Case**: When the database is configured to make outbound requests (e.g., for error logging or external communication).
+   - **Example**: Injecting a payload that triggers a DNS request to a malicious server.
+
+6. **Stacked Queries (Multiple Queries)**
+   - **Technique**: SQLmap exploits SQL injection to send multiple queries in one request. This is used when the application allows multiple SQL queries to be executed in a single request (i.e., query chaining).
+   - **Use Case**: When the application allows multiple queries to be executed in one request, typically found in less-restricted configurations.
+   - **Example**: `id=1; DROP TABLE users;` (The second query executes after the first one).
+
+7. **Stored Procedures**
+   - **Technique**: SQLmap identifies and exploits stored procedures (predefined database functions) that may be susceptible to SQL injection. Stored procedures can be used to execute malicious commands or retrieve data.
+   - **Use Case**: When stored procedures are used in the application, and they are vulnerable to SQL injection.
+   - **Example**: Executing a stored procedure like `sp_configure` to extract information from the database.
+
+8. **Second-Order SQL Injection**
+   - **Technique**: This occurs when the payload isn't immediately executed but is stored (e.g., in a database or cache) and executed later. SQLmap can detect and exploit such vulnerabilities by triggering a stored payload.
+   - **Use Case**: When an SQL injection payload is not executed directly, but results are triggered later (such as by displaying data stored in a database).
+   - **Example**: Injecting a payload through a form that is stored in a session variable or database and executed when viewed later.
+
+9. **Tampering (SQLmap Tamper Scripts)**
+   - **Technique**: SQLmap allows the use of **tamper scripts** to modify the injected payloads to bypass filters and WAFs (Web Application Firewalls). Tamper scripts can obfuscate the payload or alter its syntax.
+   - **Use Case**: To bypass security measures like WAFs, IDS/IPS systems, or input sanitization filters that may block direct SQL injection attempts.
+   - **Example**: Using a tamper script like `charencode` to obfuscate the payload (e.g., converting `1=1` into its encoded form).
+
+10. **Database Fingerprinting**
+   - **Technique**: SQLmap can detect the type and version of the underlying database system by using various queries to extract specific database properties.
+   - **Use Case**: When the database type/version isn't initially known, and it's necessary to tailor the injection to the correct SQL dialect.
+   - **Example**: SQLmap will try queries to determine if the database is MySQL, PostgreSQL, Oracle, etc.
+
+11. **DBMS Detection**
+   - **Technique**: SQLmap can detect the Database Management System (DBMS) by testing the behavior of SQL queries. This allows SQLmap to adjust its injection techniques based on the target's DBMS.
+   - **Use Case**: To determine which DBMS is in use and tailor attacks accordingly.
+   - **Example**: Running tests to determine if the target is using MySQL, Oracle, Microsoft SQL Server, etc.
+
+12. **User-Agent and Referrer Detection**
+   - **Technique**: SQLmap can use different headers such as `User-Agent` and `Referrer` to identify and exploit vulnerabilities based on how the server reacts to different inputs.
+   - **Use Case**: To mimic different browsers, devices, or referrers to bypass detection and exploit SQL injection vulnerabilities.
+   - **Example**: Modifying the `User-Agent` to trick the application into behaving differently during the attack.
+
+
+
+
 
 
 
