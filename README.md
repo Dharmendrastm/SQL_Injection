@@ -219,12 +219,14 @@ Toh attacker authentication bypass kar sakta hai.
 ---
 
 # SQLMAP TOOL
-Overwiew
+
+- ![OVERVIEW](https://github.com/Dharmendrastm/SQL_Injection/blob/main/OVERVIEW%20.png.png)
+
 ---
 
 | **Technique**               | **Description**                                                                                              |
 |-----------------------------|--------------------------------------------------------------------------------------------------------------|
-| **--crawl**                 | Scans the web application to discover all endpoints and content (e.g., `--crawl 5`).                        |
+| **--crawl**                 | Scans the web application to discover all endpoints and content (e.g., `--crawl 5`).  - ![CRAWL](https://github.com/Dharmendrastm/SQL_Injection/blob/main/Crawl.png)                      |
 | **Enumeration**             | Identifies specific details of an application, such as databases, tables, and columns.                     |
 | **--batch**                 | Executes tests or attacks on multiple inputs/parameters automatically in a batch process.                   |
 | **Risk Assessment**         | Evaluates the potential impact or severity of a vulnerability (e.g., High, Medium, Low).                     |
@@ -248,6 +250,8 @@ Overwiew
 **SQLmap** is a powerful open-source tool used for automating the process of detecting and exploiting SQL injection vulnerabilities in web applications. It provides a variety of techniques to exploit different types of SQL injection vulnerabilities. Below are the key techniques in SQLmap, each serving a specific purpose for testing and exploiting SQL injection vulnerabilities.
 
 ### Key Techniques of SQLmap
+- ![TECHNIQUES](https://github.com/Dharmendrastm/SQL_Injection/blob/main/Techniques.png)
+
 
 1. **Boolean-based Blind SQL Injection**
    - **Technique**: SQLmap sends a series of queries that return either `True` or `False` based on whether the payload works. This technique doesn't return any data directly but relies on the behavior of the application (e.g., page content, HTTP status codes, response time) to infer the database's response.
@@ -308,6 +312,11 @@ Overwiew
    - **Technique**: SQLmap can use different headers such as `User-Agent` and `Referrer` to identify and exploit vulnerabilities based on how the server reacts to different inputs.
    - **Use Case**: To mimic different browsers, devices, or referrers to bypass detection and exploit SQL injection vulnerabilities.
    - **Example**: Modifying the `User-Agent` to trick the application into behaving differently during the attack.
+
+
+- ![HIGHLIGHT](https://github.com/Dharmendrastm/SQL_Injection/blob/main/Highlights.png)
+
+- --
 
 
 
