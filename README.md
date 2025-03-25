@@ -221,33 +221,35 @@ Toh attacker authentication bypass kar sakta hai.
 # SQLMAP TOOL
 Overwiew
 ---
-| **Technique**               | **Description**                                                                                          |
-|-----------------------------|----------------------------------------------------------------------------------------------------------|
-| **--Crawl**                   | Scan the web application to discover all its endpoints and content. like as --crawl 5                                    |
-| **Enumeration**             | Identifying specific details of an application (e.g., databases, tables, columns).                      |
-| **--Batch**                   | Running tests or attacks on multiple inputs/parameters automatically in a batch process.                |
-| **Risk**                    | Assessing the potential impact or severity of a vulnerability (e.g., High, Medium, Low).                 |
-| **--Level**                   | The intensity of a scan or test, e.g., Low, Medium, High.                                                |
-| **--Threads**                 | The number of simultaneous requests that are sent during testing.                                        |
-| **Verbosity**               | The amount of detail provided in the output (e.g., minimal or detailed logging). Verbosity 
-• 0: Show only Python tracebacks, error and critical messages. 
-• 1: Show also information and warning messages. 
-• 2: Show also debug messages. 
-• 3: Show also payloads injected. 
-• 4: Show also HTTP requests. 
-  5: Show also HTTP responses' headers. 
- 6: Show also HTTP responses' page content.                          |
-| **--Proxy**                   | Intercepting and modifying HTTP/S traffic between your browser and the target application.               |
-| **--SQL Injection via Burp**  | Using Burp Suite to identify and exploit SQL injection vulnerabilities.                                  |
-| **-u**                       | Target URL for testing.                                                                                 |
-| **--forms**                   | Specify form-based attack vectors (e.g., login forms, search forms) for SQL injection testing.           |
-| **--data**                  | Specify the data that will be sent in the request body (typically used for POST requests).               |
-| **--headers**               | Custom HTTP headers to send with the request, such as authentication tokens or other key info.           |
-| **--user-agent**            | Custom User-Agent string to simulate different browsers or tools.                                        |
-| **--cookie**                | Set cookies to simulate authenticated sessions or other relevant session states.                        |
-| **--flush-session**         | Clear the current session in Burp Suite, often used for testing without persistent cookies.              |
-| **--output-dir**            | Directory to save the results of your scan or attacks.                                                   |
-| **--tamper**                | Use tampering scripts to modify payloads and bypass security measures like Web Application Firewalls (WAF).|
+
+| **Technique**               | **Description**                                                                                              |
+|-----------------------------|--------------------------------------------------------------------------------------------------------------|
+| **--crawl**                 | Scans the web application to discover all endpoints and content (e.g., `--crawl 5`).                        |
+| **Enumeration**             | Identifies specific details of an application, such as databases, tables, and columns.                     |
+| **--batch**                 | Executes tests or attacks on multiple inputs/parameters automatically in a batch process.                   |
+| **Risk Assessment**         | Evaluates the potential impact or severity of a vulnerability (e.g., High, Medium, Low).                     |
+| **--level**                 | Defines the intensity of a scan or test (e.g., Low, Medium, High).                                          |
+| **--threads**               | Specifies the number of simultaneous requests sent during testing.                                          |
+| **Verbosity Levels**        | Controls the level of detail in output logs:                                                                |
+|                             | • **0** – Only shows Python tracebacks, errors, and critical messages.                                      |
+|                             | • **1** – Includes informational and warning messages.                                                      |
+|                             | • **2** – Adds debug messages.                                                                              |
+|                             | • **3** – Displays injected payloads.                                                                      |
+|                             | • **4** – Shows HTTP requests.                                                                              |
+|                             | • **5** – Includes HTTP response headers.                                                                  |
+|                             | • **6** – Displays full HTTP response page content.                                                        |
+| **--proxy**                 | Intercepts and modifies HTTP/S traffic between the browser and the target application.                      |
+| **--SQL Injection via Burp** | Uses Burp Suite to identify and exploit SQL injection vulnerabilities.                                      |
+| **-u**                      | Specifies the target URL for testing.                                                                      |
+| **--forms**                 | Targets form-based attack vectors (e.g., login forms, search fields) for SQL injection testing.            |
+| **--data**                  | Defines the data sent in the request body (typically used for POST requests).                              |
+| **--headers**               | Adds custom HTTP headers to requests, such as authentication tokens.                                       |
+| **--user-agent**            | Sets a custom User-Agent string to simulate different browsers or tools.                                   |
+| **--cookie**                | Sets cookies to simulate authenticated sessions or specific session states.                               |
+| **--flush-session**         | Clears the current session in Burp Suite, often used for testing without persistent cookies.              |
+| **--output-dir**            | Specifies the directory to save scan results or attack logs.                                               |
+| **--tamper**                | Uses tampering scripts to modify payloads and bypass security measures, such as Web Application Firewalls (WAF). |
+
 
 ---
 **SQLmap** is a powerful open-source tool used for automating the process of detecting and exploiting SQL injection vulnerabilities in web applications. It provides a variety of techniques to exploit different types of SQL injection vulnerabilities. Below are the key techniques in SQLmap, each serving a specific purpose for testing and exploiting SQL injection vulnerabilities.
